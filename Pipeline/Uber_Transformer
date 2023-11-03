@@ -1,0 +1,91 @@
+
+
+import pandas as pd
+if 'transformer' not in globals():
+    from mage_ai.data_preparation.decorators import transformer
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+
+@transformer
+def transform(df, *args, **kwargs):
+    """
+    Template code for a transformer block.
+
+    Add more parameters to this function if this block has multiple parent blocks.
+    There should be one parameter for each output variable from each parent block.
+
+    Args:
+        data: The output from the upstream parent block
+        args: The output from any additional upstream blocks (if applicable)
+
+    Returns:
+        Anything (e.g. data frame, dictionary, array, int, str, etc.)
+    """
+    # Specify your transformation logic here
+    df = df.drop(columns = 'key')
+    df = df.drop(columns = 'Unnamed: 0')
+
+    df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+
+    df['pickup_day'] = df['pickup_datetime'].dt.day
+    df['pickup_month'] = df['pickup_datetime'].dt.month
+    df['pickup_year'] = df['pickup_datetime'].dt.year
+    df['pickup_weekday'] = df['pickup_datetime'].dt.weekday
+    df['pickup_hour'] = df['pickup_datetime'].dt.hour
+
+    df = df.drop_duplicates().reset_index(drop=True)
+    df['trip_id'] = df.index
+    df['datetime'] = df.index
+
+    df_datetime = df[['datetime', 'pickup_day','pickup_month', 'pickup_year', 
+                  'pickup_weekday', 'pickup_hour', 'pickup_weekday']]
+
+    
+    df_passengercount = df[['passenger_count']]
+    df_passengercount['passenger_count_id'] = df_passengercount.index
+    df_passengercount = df_passengercount.drop_duplicates('passenger_count').reset_index(drop = True)
+    df_passengercount = df_passengercount[['passenger_count', 'passenger_count_id']]
+
+
+    df_fareamount = df[['fare_amount']]
+    df_fareamount['fare_amount_id'] = df_fareamount.index
+    df_fareamount = df_fareamount.drop_duplicates('fare_amount').reset_index(drop = True)
+    df_fareamount = df_fareamount[['fare_amount','fare_amount_id' ]]
+
+    df_droplocation  = df[['dropoff_longitude','dropoff_latitude' ]]
+    df_droplocation = df_droplocation.drop_duplicates(['dropoff_longitude','dropoff_latitude']).reset_index(drop=True)
+    df_droplocation['droplocation_id'] = df_droplocation.index
+    df_droplocation = df_droplocation[['droplocation_id','dropoff_longitude','dropoff_latitude' ]]
+
+    df_pickuplocation = df[['pickup_longitude', 'pickup_latitude']]
+    df_pickuplocation['df_pickuplocation_id'] = df_pickuplocation.index
+    df_pickuplocation = df_pickuplocation.drop_duplicates(['pickup_longitude', 'pickup_latitude']).reset_index(drop=True)
+    df_pickuplocation = df_pickuplocation[['df_pickuplocation_id', 'pickup_longitude', 'pickup_latitude']]
+
+    combined_df = df.merge(df_datetime, left_index=True, right_index=True)\
+                .merge(df_passengercount, left_index=True, right_index=True)\
+                .merge(df_fareamount, left_index=True, right_index=True)\
+                .merge(df_droplocation, left_index=True, right_index=True)\
+                .merge(df_pickuplocation, left_index=True, right_index=True)\
+                [['fare_amount_x', 'pickup_longitude_x', 'pickup_latitude_x','dropoff_longitude_x',
+                'dropoff_latitude_x', 'passenger_count_x', 'pickup_day_x', 'pickup_month_x', 'pickup_year_x',
+                'pickup_weekday_x', 'pickup_hour_x', 'trip_id', 'datetime_x',  'passenger_count_id', 'fare_amount_id',
+                'droplocation_id', 'df_pickuplocation_id']]
+
+    return{'fare_amount_x': df_fareamount.to_dict(orient="dict"),
+    'passenger_count_x': df_passengercount.to_dict(orient="dict"),
+    'datetime_x': df_datetime.to_dict(orient="dict"),
+    'droplocation_id': df_droplocation.to_dict(orient="dict"),
+    'df_pickuplocation_id': df_pickuplocation.to_dict(orient="dict"),
+    'combined_df': combined_df.to_dict(orient="dict")}
+
+    
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'
