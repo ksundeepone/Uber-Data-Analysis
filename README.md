@@ -29,35 +29,42 @@ This repository contains the code and documentation for my Uber Data Pipeline pr
 Here's a step-by-step process for your Uber data pipeline project:
 
 **Step 1: Data Extraction and Transformation**
-1. Download the yellow cab dataset for the year 2023 from NYC.Gov.
-3. Load the dataset into the Jupyter notebook.
-4. Use Python to perform necessary data transformations, such as cleaning, filtering, and structuring the data as needed for your project.
+- Download the yellow cab dataset for the year 2023 from NYC.Gov.
+- Load the dataset into the Jupyter notebook.
+- Use Python to perform necessary data transformations, such as cleaning, filtering, and structuring the data as needed for your project.
 
 
 **Step 2: Data Storage Setup**
-6. Log in to your Google Cloud account and navigate to Google Cloud Storage.
-7. Create a new bucket in Google Cloud Storage to store your transformed data.
-8. Change the Dataset Firewall to Fine-grained to get public access.
+- Log in to your Google Cloud account and navigate to Google Cloud Storage.
+- Create a new bucket in Google Cloud Storage to store your transformed data.
+- Change the Dataset Firewall to Fine-grained to get public access.
 
 **Step 3: Virtual Machine and Mage Setup**
-9. Set up a Virtual Machine (VM) in Google Cloud to use as the host for your data pipeline.
-10. Install the Mage data pipeline tool on the VM. You may need to follow the installation instructions provided by Mage.
-11. Configure Mage with the necessary credentials and permissions to access your Google Cloud Storage bucket and BigQuery.
+- Set up a Virtual Machine (VM) in Google Cloud to use as the host for your data pipeline.
+- Install the Mage data pipeline tool on the VM. You may need to follow the installation instructions provided by Mage.
+- Configure Mage with the necessary credentials and permissions to access your Google Cloud Storage bucket and BigQuery.
 
 **Step 4: Data Pipeline Creation**
-12. Launch Mage on your VM and create a data pipeline for your project.
-13. Define the pipeline stages, including loading, transformation, and exporting.
-14. For the loading stage, use Mage's Loader function to connect to your Google Cloud Storage bucket and ingest the transformed data.
+- Launch Mage on your VM and create a data pipeline for your project.
+- Define the pipeline stages, including loading, transformation, and exporting.
+- For the loading stage, use Mage's Loader function to connect to your Google Cloud Storage bucket and ingest the transformed data.
+
+  <img width="1440" alt="Screenshot 2023-11-03 at 1 16 40 AM" src="https://github.com/ksundeepone/Uber-Data_Pipeline-Project/assets/102394204/0076ef6b-e4d7-43b0-80dc-a0a8f5713402">
+
+
+<img width="1440" alt="Screenshot 2023-11-03 at 1 16 16 AM" src="https://github.com/ksundeepone/Uber-Data_Pipeline-Project/assets/102394204/8de2496e-9761-4c88-927a-f92b7960be25">
+
+
 
 **Step 5: Google Cloud Integration**
-17. In the Google Cloud Console, navigate to the API & Services section.
-18. Create the necessary credentials and permissions to allow Mage to access your BigQuery project.
-19. Configure the Mage pipeline to connect to BigQuery using the credentials created in the previous step.
+- In the Google Cloud Console, navigate to the API & Services section.
+- Create the necessary credentials and permissions to allow Mage to access your BigQuery project.
+- Configure the Mage pipeline to connect to BigQuery using the credentials created in the previous step.
 
 **Step 6: Data Export and Analysis**
-20. Execute the Mage data pipeline, which will load the data from your Google Cloud Storage bucket, transform it, and export it to BigQuery.
-21. Access BigQuery and run SQL queries to analyze and manipulate the data as required for your project.
-22. Use the results of your analysis to create reports and dashboards in Looker Studio or any other preferred data visualization tool.
+- Execute the Mage data pipeline, which will load the data from your Google Cloud Storage bucket, transform it, and export it to BigQuery.
+- Access BigQuery and run SQL queries to analyze and manipulate the data as required for your project.
+- Use the results of your analysis to create reports and dashboards in Looker Studio or any other preferred data visualization tool.
 
 
 ## Python Installation in VM
